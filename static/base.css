@@ -1,0 +1,56 @@
+/*
+ * Main stylesheet
+ */
+
+html
+{
+    scroll-behavior: smooth;
+}
+
+body 
+{
+    background-color: #333;
+}
+
+p, a, .btn, #logout-button, li
+{
+    font-size: medium;
+    color: white;
+    font-family: 'Noto Sans Avestan', sans-serif;
+}
+
+input
+{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+div.form-container
+{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 50%;
+}
+
+.btn 
+{
+    color: white;
+    background-color: #284;
+    text-decoration: none;
+    padding: 10px;
+    transition: 100ms;
+    border: none;
+}
+
+.btn:hover
+{ 
+    cursor: pointer;
+    background-color: gray;
+    color: white;
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>Register into Foxchat</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/base.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Avestan&display=swap" rel="stylesheet"> 
+</head>
+<body>
+  <center>
+    <div class="form-container">
+    <form id="form" action="">
+      <input id="username" type="text" placeholder="Username" required>
+      <input id="email" type="email" placeholder="E-Mail" required>
+      <input id="password" type="password" placeholder="Password" required>
+      <input id="passwordc" type="password" placeholder="Confirm password" required>
+      <input class="btn" type="submit" value="Register">
+    </form>
+    <p>Already a member?</p>
+    <a href="/login" class="btn">Login here!</a>
+    </div>
+  </center>
+
+    <script src="/static/tools.js"></script>
+    <script>
+        if(getCookie('auth')) document.location = './chat';
+
+        var form = document.getElementById('form');
+        var email = document.getElementById('email');
+        var password = document.getElementById('password');
+        var passwordc = document.getElementById('passwordc');
+
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          if(!(password.value == passwordc.value)) return no_match_err();
+
+          fetch('./register', {
+            method: "post",
+            body: JSON.stringify({username: username.value, email: email.value, password: btoa(password.value)}),
+            headers:
+            { 
+              "Content-Type": "application/json"
+            }
+          }).then(data => data.json()).then(json => {
+            if(json.success)  document.location = './chat';
+            if(!json.success) handle_fail(json.message);
+          })
+
+        });
+
+        //TODO
+        function no_match_err(){
+            alert('Passwords do not match! Try again, check for typos.');
+        };
+
+        function handle_fail(message){
+            alert(`Can't create account: ${message}`);
+        };
+    </script>
+</body>

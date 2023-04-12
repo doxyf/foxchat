@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>Login into Foxchat</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/base.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Avestan&display=swap" rel="stylesheet"> 
+</head>
+<body>
+  <center>
+    <div class="form-container">
+      <form id="form" action="register">
+        <input id="email" type="email" placeholder="Your E-Mail" required>
+        <input id="password" type="password" placeholder="Your password" required>
+        <input class="btn" type="submit" value="Login!">
+      </form>
+      <p>Not a member yet?</p>
+      <a href="/register" class="btn">Register here!</a>
+    </div>
+  </center>
+
+  <script src="/static/tools.js"></script>
+    <script>
+        if(getCookie('auth')) document.location = './chat';
+
+        var form = document.getElementById('form');
+        var email = document.getElementById('email');
+        var password = document.getElementById('password');
+
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+
+          fetch('./login', {
+            method: "post",
+            body: JSON.stringify({email: email.value, password: btoa(password.value)}),
+            headers:
+            { 
+              "Content-Type": "application/json"
+            }
+          }).then(data => data.json()).then(json => {
+            if(json.success)  document.location = './chat';
+            if(!json.success) handle_fail(json.message);
+          })
+
+        });
+
+        function handle_fail(message){
+            alert(`Can't login: ${message}`);
+        };
+    </script>
+</body>
